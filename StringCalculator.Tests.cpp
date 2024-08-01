@@ -118,10 +118,6 @@ int add(const char* numbers)
     return sum;
 }
 
-void test_empty_string()
-{
-    assert(string_calculator("") == 0);
-}
 
 int main() {
     test_empty_string();
