@@ -8,11 +8,6 @@ int string_calculator(const char *numbers);
 int add(const char* numbers);
 
 
-
-
-
-#endif // STRING_CALCULATOR_H
-
 void test_empty_string() {
     assert(string_calculator("") == 0);
 }
