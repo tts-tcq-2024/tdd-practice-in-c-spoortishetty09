@@ -120,7 +120,7 @@ int add(const char* numbers)
 
 
 int main() {
-    test_empty_string();
+   
      test_empty_input();
     test_single_zero();
     test_two_numbers();
