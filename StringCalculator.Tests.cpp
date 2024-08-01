@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "StringCalculator.h"
 
+ char *delimiter = "," ;
+
 TEST(StringCalculatorAddTests, ExpectZeroForEmptyInput) {
     int expectedresult = 0;
     const char* input = "Hello, world!";
@@ -66,7 +68,7 @@ int add(const char* numbers)
 
     // Default delimiter is a comma
     
-    char *delimiter = "," ;
+   
     
     // Check for custom delimiter
     if (strncmp(numbers, "//", 2) == 0) 
