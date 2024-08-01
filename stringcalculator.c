@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 // Function prototype
 int string_calculator(const char *numbers);
