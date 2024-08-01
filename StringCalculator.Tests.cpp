@@ -53,7 +53,8 @@ TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiter)
 // Function to add numbers from the input string
 int add(const char* numbers) 
 {
- char *delimiter = "," ;
+char delimiter[2] = ",";
+ 
     // If input is empty, return 0
     if (numbers == NULL || strlen(numbers) == 0) 
     {
