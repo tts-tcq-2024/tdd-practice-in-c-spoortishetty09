@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
+#include "StringCalculator.h"
+
 
 // Function prototype
 int string_calculator(const char *numbers);
@@ -69,9 +71,7 @@ int add(const char* numbers) {
     free(numbers_copy); // Free the allocated memory
     return sum;
 }
-#include "StringCalculator.h"
-#include <stdio.h>
-#include <assert.h>
+
 
 // Test cases
 void test_empty_input() {
