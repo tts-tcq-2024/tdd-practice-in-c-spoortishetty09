@@ -4,10 +4,10 @@
 #include "StringCalculator.h"
 
 
-// Function prototype
-int string_calculator(const char *numbers);
 
-void test_empty_string() {
+
+void test_empty_string()
+{
     assert(string_calculator("") == 0);
 }
 
