@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "StringCalculator.h"
 
- char *delimiter = "," ;
+ 
 
 TEST(StringCalculatorAddTests, ExpectZeroForEmptyInput) {
     int expectedresult = 0;
@@ -45,6 +45,7 @@ TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiter)
 {
     int expectedresult = 3;
     const char*  input = "//;\n1;2";
+    
     int result = add(input);
     ASSERT_EQ(result, expectedresult);
 }*/
@@ -52,6 +53,7 @@ TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiter)
 // Function to add numbers from the input string
 int add(const char* numbers) 
 {
+ char *delimiter = "," ;
     // If input is empty, return 0
     if (numbers == NULL || strlen(numbers) == 0) 
     {
@@ -66,7 +68,7 @@ int add(const char* numbers)
         return -1; // Memory allocation failed
     }
 
-    // Default delimiter is a comma
+   
     
    
     
