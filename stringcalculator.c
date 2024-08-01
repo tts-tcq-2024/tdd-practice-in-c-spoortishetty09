@@ -24,25 +24,32 @@ int main() {
 }
 
 // Function to add numbers from the input string
-int add(const char* numbers) {
+int add(const char* numbers) 
+{
     // If input is empty, return 0
-    if (numbers == NULL || strlen(numbers) == 0) {
+    if (numbers == NULL || strlen(numbers) == 0) 
+    {
         return 0;
     }
 
     // Create a copy of the input string to work with
+    
     char *numbers_copy = strdup(numbers);
-    if (numbers_copy == NULL) {
+    if (numbers_copy == NULL)
+    {
         return -1; // Memory allocation failed
     }
 
     // Default delimiter is a comma
-    char *delimiter = ",";
+    
+    char *delimiter = "," ;
     
     // Check for custom delimiter
-    if (strncmp(numbers, "//", 2) == 0) {
+    if (strncmp(numbers, "//", 2) == 0) 
+    {
         char *newline = strchr(numbers, '\n');
-        if (newline != NULL) {
+        if (newline != NULL)
+        {
             *newline = '\0'; // Split the delimiter part from numbers
             delimiter = numbers + 2; // Custom delimiter
             numbers_copy = newline + 1; // Update numbers_copy to skip the delimiter line
@@ -50,8 +57,10 @@ int add(const char* numbers) {
     }
 
     // Replace newline characters with commas for consistency
-    for (char *p = numbers_copy; *p; ++p) {
-        if (*p == '\n') {
+    for (char *p = numbers_copy; *p; ++p)
+        {
+        if (*p == '\n')
+        {
             *p = ',';
         }
     }
@@ -60,9 +69,11 @@ int add(const char* numbers) {
     char *token = strtok(numbers_copy, delimiter);
     int sum = 0;
     
-    while (token != NULL) {
+    while (token != NULL) 
+    {
         int number = atoi(token); // Convert token to integer
-        if (number <= 1000) {     // Ignore numbers greater than 1000
+        if (number <= 1000) 
+        {     // Ignore numbers greater than 1000
             sum += number;
         }
         token = strtok(NULL, delimiter); // Get the next token
@@ -74,11 +85,13 @@ int add(const char* numbers) {
 
 
 // Test cases
-void test_empty_input() {
+void test_empty_input()
+{
     assert(add("") == 0);
 }
 
-void test_single_zero() {
+void test_single_zero()
+{
     assert(add("0") == 0);
 }
 
@@ -86,22 +99,21 @@ void test_two_numbers() {
     assert(add("1,2") == 3);
 }
 
-void test_newline_delimiter() {
+void test_newline_delimiter()
+{
     assert(add("1\n2,3") == 6);
 }
 
-void test_ignore_numbers_greater_than_1000() {
+void test_ignore_numbers_greater_than_1000()
+{
     assert(add("1,1001") == 1);
 }
 
-void test_custom_delimiter() {
+void test_custom_delimiter() 
+{
     assert(add("//;\n1;2") == 3);
 }
 
+ 
 
-   
-
-    printf("All tests passed!\n");
-    return 0;
-}
 
