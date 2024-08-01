@@ -76,23 +76,25 @@ char delimiter[2] = ",";
     // Check for custom delimiter
     if (strncmp(numbers, "//", 2) == 0) 
     {
-       const char *newline = strchr(numbers, '\n');
+        const char *newline = strchr(numbers, '\n');
         if (newline != NULL)
         {
-            // Make a writable copy of numbers_copy
-            char *numbers_copy_mod = strdup(numbers); // Create a modifiable copy
-            if (numbers_copy_mod == NULL)
+            // Extract custom delimiter
+            char *custom_delim = strndup(numbers + 2, newline - numbers - 2);
+            if (custom_delim != NULL)
             {
-                free(numbers_copy);
-                return -1; // Memory allocation failed
+                snprintf(delimiter, sizeof(delimiter), "%s", custom_delim);
+                free(custom_delim);
+                numbers_copy = strdup(newline + 1);
+                if (numbers_copy == NULL)
+                {
+                    free(numbers_copy);
+                    return -1; // Memory allocation failed
+                }
             }
-          // Split the delimiter part from numbers
-            *numbers_copy_mod = '\0'; // Split at the newline character
-            delimiter = (char *)(numbers + 2); // Custom delimiter
-            numbers_copy = (char *)(newline + 1); // Update numbers_copy to skip the delimiter line
-            free(numbers_copy_mod); // Free the allocated memory
         }
     }
+
 
     
 
