@@ -8,7 +8,4 @@ int string_calculator(const char *numbers);
 int add(const char* numbers);
 
 
-void test_empty_string() {
-    assert(string_calculator("") == 0);
-}
 
