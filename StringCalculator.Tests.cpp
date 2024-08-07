@@ -1,93 +1,30 @@
-#include <gtest/gtest.h>
 #include "StringCalculator.h"
+#include <gtest/gtest.h>
 
- 
-
-TEST(StringCalculatorAddTests, ExpectZeroForEmptyInput) {
-    int expectedresult = 0;
-    const char* input = "Hello, world!";
-    int result = add(input);
-    ASSERT_EQ(result, expectedresult);
-}
-/*
-TEST(StringCalculatorAddTests, ExpectZeroForSingleZero) {
-    int expectedresult = 0;
-    const char* input = "0";
-    int result = add(input);
-    ASSERT_EQ(result, expectedresult);
-}
-
-TEST(StringCalculatorAddTests, ExpectSumForTwoNumbers)
-{
-    int expectedresult = 3;
-    const char*  input = "1,2";
-    int result = add(input);
-    ASSERT_EQ(result, expectedresult);
-}
-
-TEST(StringCalculatorAddTests, ExpectSumWithNewlineDelimiter) 
-{
-    int expectedresult = 6;
-    const char*  input = "1\n2,3";
-    int result =add(input);
-    ASSERT_EQ(result, expectedresult);
-}
-
-TEST(StringCalculatorAddTests, IgnoreNumbersGreaterThan1000)
-{
-    int expectedresult = 1;
-    const char*  input = "1,1001";
-    int result =add(input);
-    ASSERT_EQ(result, expectedresult);
-}
-
-TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiter) 
-{
-    int expectedresult = 3;
-    const char*  input = "//;\n1;2";
-    
-    int result = add(input);
-    ASSERT_EQ(result, expectedresult);
-}*/
-
-// Function to add numbers from the input string
-int add(const char* numbers) 
-{
-char delimiter[2] = ",";
- 
+int add(const char* numbers) {
+    char delimiter[2] = ",";
     // If input is empty, return 0
-    if (numbers == NULL || strlen(numbers) == 0) 
-    {
+    if (numbers == NULL || strlen(numbers) == 0) {
         return 0;
     }
 
     // Create a copy of the input string to work with
-    
     char *numbers_copy = strdup(numbers);
-    if (numbers_copy == NULL)
-    {
+    if (numbers_copy == NULL) {
         return -1; // Memory allocation failed
     }
 
-   
-    
-   
-    
     // Check for custom delimiter
-    if (strncmp(numbers, "//", 2) == 0) 
-    {
+    if (strncmp(numbers, "//", 2) == 0) {
         const char *newline = strchr(numbers, '\n');
-        if (newline != NULL)
-        {
+        if (newline != NULL) {
             // Extract custom delimiter
             char *custom_delim = strndup(numbers + 2, newline - numbers - 2);
-            if (custom_delim != NULL)
-            {
+            if (custom_delim != NULL) {
                 snprintf(delimiter, sizeof(delimiter), "%s", custom_delim);
                 free(custom_delim);
                 numbers_copy = strdup(newline + 1);
-                if (numbers_copy == NULL)
-                {
+                if (numbers_copy == NULL) {
                     free(numbers_copy);
                     return -1; // Memory allocation failed
                 }
@@ -95,14 +32,9 @@ char delimiter[2] = ",";
         }
     }
 
-
-    
-
     // Replace newline characters with commas for consistency
-    for (char *p = numbers_copy; *p; ++p)
-        {
-        if (*p == '\n')
-        {
+    for (char *p = numbers_copy; *p; ++p) {
+        if (*p == '\n') {
             *p = ',';
         }
     }
@@ -110,12 +42,10 @@ char delimiter[2] = ",";
     // Tokenize the input string using the delimiter
     char *token = strtok(numbers_copy, delimiter);
     int sum = 0;
-    
-    while (token != NULL) 
-    {
+
+    while (token != NULL) {
         int number = atoi(token); // Convert token to integer
-        if (number <= 1000) 
-        {     // Ignore numbers greater than 1000
+        if (number <= 1000) {     // Ignore numbers greater than 1000
             sum += number;
         }
         token = strtok(NULL, delimiter); // Get the next token
@@ -125,53 +55,50 @@ char delimiter[2] = ",";
     return sum;
 }
 
-
-int main() {
-   
-     test_empty_input();
-    test_single_zero();
-    test_two_numbers();
-    test_newline_delimiter();
-    test_ignore_numbers_greater_than_1000();
-    test_custom_delimiter();
-    printf("All tests passed!\n");
-    return 0;
+// GTest test cases
+TEST(StringCalculatorAddTests, ExpectZeroForEmptyInput) {
+    int expectedresult = 0;
+    const char* input = "";
+    int result = add(input);
+    ASSERT_EQ(result, expectedresult);
 }
 
-
-
-
-// Test cases
-void test_empty_input()
-{
-    assert(add("") == 0);
+TEST(StringCalculatorAddTests, ExpectZeroForSingleZero) {
+    int expectedresult = 0;
+    const char* input = "0";
+    int result = add(input);
+    ASSERT_EQ(result, expectedresult);
 }
 
-void test_single_zero()
-{
-    assert(add("0") == 0);
+TEST(StringCalculatorAddTests, ExpectSumForTwoNumbers) {
+    int expectedresult = 3;
+    const char* input = "1,2";
+    int result = add(input);
+    ASSERT_EQ(result, expectedresult);
 }
 
-void test_two_numbers() {
-    assert(add("1,2") == 3);
+TEST(StringCalculatorAddTests, ExpectSumWithNewlineDelimiter) {
+    int expectedresult = 6;
+    const char* input = "1\n2,3";
+    int result = add(input);
+    ASSERT_EQ(result, expectedresult);
 }
 
-void test_newline_delimiter()
-{
-    assert(add("1\n2,3") == 6);
+TEST(StringCalculatorAddTests, IgnoreNumbersGreaterThan1000) {
+    int expectedresult = 1;
+    const char* input = "1,1001";
+    int result = add(input);
+    ASSERT_EQ(result, expectedresult);
 }
 
-void test_ignore_numbers_greater_than_1000()
-{
-    assert(add("1,1001") == 1);
+TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiter) {
+    int expectedresult = 3;
+    const char* input = "//;\n1;2";
+    int result = add(input);
+    ASSERT_EQ(result, expectedresult);
 }
 
-void test_custom_delimiter() 
-{
-    assert(add("//;\n1;2") == 3);
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
-
- 
-
-
-
