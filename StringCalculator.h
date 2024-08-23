@@ -1,73 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include<stdlib.h>
-// ExpectZeroForEmptyInput, ExpectZeroForSingleZero  
-bool isemptystring(const char* value)
-{
-    if (value == NULL || value[0] == '\0')
-    {
-        return 1;
-    }
-    return 0;
+
+// Function to check if a string is empty or NULL
+int isEmptyString(const char* str) {
+    return (str == NULL || str[0] == '\0');
 }
 
-int islessthanthousand(const char *val)
-{    
-    int sum = 0;
-    int input = atoi(val); // string to int
-    if(input < 1000)
-    {
-        sum += input;
-        return sum;
-    }
-    return 0;
-     
+// Function to convert a string to an integer and return it if it's less than 1000
+int parseNumberIfLessThanThousand(const char* str) {
+    int number = atoi(str); // Convert string to integer
+    return (number < 1000) ? number : 0;
 }
 
-int calculatesum(const char* input, char* delimiter)
-{
+// Function to calculate the sum of numbers in the input string with the given delimiter
+int calculateSum(const char* input, const char* delimiter) {
     int sum = 0;
-    char* duplicate_input = NULL;
-    duplicate_input = strdup (input); // duplicate the string 
-    char* token = strtok(duplicate_input,delimiter); //tokenizing strings
-    while(token != NULL)
-    {
-        sum = sum + islessthanthousand(token);
-        token = strtok(NULL,delimiter);
+    char* duplicatedInput = strdup(input); // Duplicate the input string
+    char* token = strtok(duplicatedInput, delimiter); // Tokenize the input string
+
+    while (token != NULL) {
+        sum += parseNumberIfLessThanThousand(token); // Add valid numbers less than 1000 to the sum
+        token = strtok(NULL, delimiter);
     }
+
+    free(duplicatedInput); // Free allocated memory
     return sum;
 }
 
-void append_custom_delimiter(const char* input, char* delimiter) {
-    int i = 2; 
-    while(input[i] != '\n')
-    {
-        char src[1] = {input[i]};
-        strncat (delimiter, src,1);
-        i = i+1;
+// Function to extract a custom delimiter from the input string
+void extractCustomDelimiter(const char* input, char* delimiter) {
+    int i = 2; // Start after "//"
+    while (input[i] != '\n' && input[i] != '\0') {
+        delimiter[strlen(delimiter)] = input[i]; // Append character to delimiter
+        i++;
+    }
+    delimiter[strlen(delimiter)] = '\0'; // Null-terminate the delimiter string
+}
+
+// Function to check and set the custom delimiter
+void setDelimiter(const char* input, char* delimiter) {
+    if (input[0] == '/' && input[1] == '/') {
+        strcpy(delimiter, ""); // Initialize delimiter string
+        extractCustomDelimiter(input, delimiter); // Extract custom delimiter
+    } else {
+        strcpy(delimiter, ",\n"); // Default delimiters
     }
 }
-//ExpectSumWithCustomDelimiter("//;\n1;2")
-void checkcustomdelimiter(const char* input, char* delimiter)
-{
-    if (input[0] == '/' && input[1] == '/')
-    {
-        strcpy(delimiter, "");
-        append_custom_delimiter(input,delimiter);
+
+// Main function to add numbers in the input string
+int add(const char* input) {
+    char delimiter[128]; // Delimiter string
+
+    if (isEmptyString(input)) {
+        return 0; // Return 0 if the input string is empty
     }
-    else
-    {
-        delimiter = ",\n";
-    }
-}
-//ExpectSumWithCustomDelimiter
-int add (const char* input)
-{
-    char delimiter[128] = ",\n";
-    if (1 == isemptystring(input))
-    {
-        return 0;
-    }
-    checkcustomdelimiter(input, delimiter);
-    return calculatesum(input, delimiter);
-    
+
+    setDelimiter(input, delimiter); // Check for custom delimiter
+    return calculateSum(input, delimiter); // Calculate and return the sum
 }
